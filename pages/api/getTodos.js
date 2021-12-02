@@ -5,6 +5,7 @@ export default async function handler(req, res) {
     const records = await table.select({}).firstPage();
     res.status(200).json(minifyRecords(records));
   } catch (error) {
+    console.log(error);
     res.status(400).json({ message: "Oops! Something went wrong" });
   }
 }
