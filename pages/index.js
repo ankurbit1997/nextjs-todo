@@ -2,9 +2,16 @@ import Head from "next/head";
 import Navbar from "../components/Navbar";
 import Todo from "../components/Todo";
 import { table, minifyRecords } from "./api/utils/Airtable";
+import { TodosContext } from "../context/TodosContext";
+import { useEffect, useContext } from "react";
 
 export default function Home({ intitialTodos }) {
-  console.log(intitialTodos);
+  const { todos, setTodos } = useContext(TodosContext);
+
+  useEffect(() => {
+    setTodos(intitialTodos);
+  }, [intitialTodos, setTodos]);
+
   return (
     <div className=" min-h-screen">
       <Head>
@@ -14,9 +21,7 @@ export default function Home({ intitialTodos }) {
       </Head>
       <Navbar />
       <main className="container mx-auto mt-10 max-w-4xl">
-        {intitialTodos.map((todo) => (
-          <Todo todo={todo} key={todo.id} />
-        ))}
+        {todos && todos.map((todo) => <Todo todo={todo} key={todo.id} />)}
       </main>
     </div>
   );
