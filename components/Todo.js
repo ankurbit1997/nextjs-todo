@@ -6,7 +6,6 @@ import { TodosContext } from "../context/TodosContext";
 const Todo = ({ todo }) => {
   const { updateTodo, deleteTodo, loading } = useContext(TodosContext);
 
-  console.log(loading);
   const handleCompleted = (todo) => {
     const updatedFields = {
       ...todo.fields,
