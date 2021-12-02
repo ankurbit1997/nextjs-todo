@@ -2,7 +2,7 @@ import Head from "next/head";
 
 export default function Home() {
   return (
-    <div className=" min-h-screen flex justify-center items-center container bg-blue-50">
+    <div className=" min-h-screen flex justify-center items-center bg-blue-50 font-poppins">
       <Head>
         <title>Fullstack Todo</title>
         <meta name="description" content="Next Gen Todo App" />
@@ -17,3 +17,11 @@ export default function Home() {
     </div>
   );
 }
+
+export const getServerSideProps = async () => {
+  return {
+    props: {
+      test: "test",
+    },
+  };
+};
