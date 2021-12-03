@@ -5,6 +5,7 @@ const TodosContext = createContext();
 const TodosProvider = ({ children }) => {
   const [todos, setTodos] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [formLoading, setFormLoading] = useState(false);
 
   const refreshTodos = async () => {
     try {
@@ -15,19 +16,23 @@ const TodosProvider = ({ children }) => {
     }
   };
 
-  const addTodo = async ({ description }) => {
+  const addTodo = async (todo) => {
+    setFormLoading(true);
     try {
       const res = await fetch("/api/createTodos", {
-        method: " POST",
-        body: JSON.stringify({ description }),
+        method: "POST",
+        body: JSON.stringify({ description: todo }),
         headers: { "Content-Type": "application/json" },
       });
       const newTodo = await res.json();
       setTodos((prevTodos) => {
-        return [newTodo, ...prevTodos];
+        const updatedTodos = [newTodo, ...prevTodos];
+        return updatedTodos;
       });
+      setFormLoading(false);
     } catch (err) {
-      console.log(err);
+      console.error(err);
+      setFormLoading(false);
     }
   };
 
@@ -80,6 +85,7 @@ const TodosProvider = ({ children }) => {
       value={{
         todos,
         loading,
+        formLoading,
         setTodos,
         refreshTodos,
         updateTodo,

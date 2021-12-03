@@ -1,10 +1,10 @@
+import { useEffect, useContext } from "react";
 import Head from "next/head";
 import Navbar from "../components/Navbar";
 import Todo from "../components/Todo";
+import AddForm from "../components/AddForm";
 import { table, minifyRecords } from "./api/utils/Airtable";
 import { TodosContext } from "../context/TodosContext";
-import { useEffect, useContext } from "react";
-import AddTodo from "../components/addTodo";
 
 export default function Home({ intitialTodos }) {
   const { todos, setTodos } = useContext(TodosContext);
@@ -14,7 +14,7 @@ export default function Home({ intitialTodos }) {
   }, [intitialTodos, setTodos]);
 
   const completedTodo = todos.filter(
-    (todo) => todo.fields.completed === true
+    (todo) => todo?.fields?.completed === true
   ).length;
 
   return (
@@ -26,7 +26,7 @@ export default function Home({ intitialTodos }) {
       </Head>
       <Navbar />
       <main className="container mx-auto mt-10 max-w-4xl">
-        <AddTodo />
+        <AddForm />
         {todos ? (
           todos.map((todo) => <Todo todo={todo} key={todo.id} />)
         ) : (
