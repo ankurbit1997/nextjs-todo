@@ -4,6 +4,7 @@ import Todo from "../components/Todo";
 import { table, minifyRecords } from "./api/utils/Airtable";
 import { TodosContext } from "../context/TodosContext";
 import { useEffect, useContext } from "react";
+import AddTodo from "../components/addTodo";
 
 export default function Home({ intitialTodos }) {
   const { todos, setTodos } = useContext(TodosContext);
@@ -11,6 +12,10 @@ export default function Home({ intitialTodos }) {
   useEffect(() => {
     setTodos(intitialTodos);
   }, [intitialTodos, setTodos]);
+
+  const completedTodo = todos.filter(
+    (todo) => todo.fields.completed === true
+  ).length;
 
   return (
     <div className=" min-h-screen">
@@ -21,7 +26,16 @@ export default function Home({ intitialTodos }) {
       </Head>
       <Navbar />
       <main className="container mx-auto mt-10 max-w-4xl">
-        {todos && todos.map((todo) => <Todo todo={todo} key={todo.id} />)}
+        <AddTodo />
+        {todos ? (
+          todos.map((todo) => <Todo todo={todo} key={todo.id} />)
+        ) : (
+          <p>No Todos available</p>
+        )}
+        <p className="text-center capitalize">
+          you have completed {completedTodo}{" "}
+          {completedTodo.length === 1 ? "task" : "tasks"}
+        </p>
       </main>
     </div>
   );
